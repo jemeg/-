@@ -29,13 +29,10 @@
             </div>
             <div class="admin-controls">
                 <div class="ms-auto">
-                    <span class="me-3">مرحباً، <span id="adminUsername">Ghazwan-MG</span></span>
-                    <a href="logs.html" class="btn btn-outline-primary me-2 admin-only">
-                        <i class="fas fa-history"></i> سجل التغييرات
+                    <span class="me-3">مرحباً، <span id="employeeName"></span></span>
+                    <a href="employee-login.html" class="btn btn-outline-danger" onclick="sessionStorage.removeItem('employeeData')">
+                        <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
                     </a>
-                    <button class="btn btn-outline-danger" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i> تسجيل خروج
-                    </button>
                 </div>
             </div>
         </div>
@@ -43,16 +40,6 @@
         <div class="image-gallery">
             <div class="gallery-header">
                 <h3>صور الفريق</h3>
-                <div class="gallery-actions">
-                    <button class="btn btn-primary add-image-btn">
-                        <i class="fas fa-plus"></i>
-                        إضافة صورة
-                    </button>
-                    <button class="btn btn-danger delete-image-btn">
-                        <i class="fas fa-trash"></i>
-                        حذف صورة
-                    </button>
-                </div>
             </div>
             <div class="image-grid">
                 <div class="image-card">
@@ -67,36 +54,42 @@
 
         <div class="row mb-3">
             <div class="col">
-                <button class="btn btn-primary" onclick="addNewRow()">
-                    <i class="fas fa-plus"></i> إضافة صف جديد
-                </button>
                 <button class="btn btn-success" onclick="exportToExcel()">
                     <i class="fas fa-file-excel"></i> تصدير إلى Excel
+                </button>
+                <button class="btn btn-danger" onclick="exportToPDF()">
+                    <i class="fas fa-file-pdf"></i> تصدير إلى PDF
                 </button>
             </div>
         </div>
 
         <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="ambulanceTable">
+            <table class="table table-bordered table-hover" id="scheduleTable">
                 <thead class="table-dark">
                     <tr>
-                        <th>اسم الموظف</th>
-                        <th>المسمى الوظيفي</th>
-                        <th>الرتبة</th>
-                        <th>وقت بداية الدوام</th>
-                        <th>وقت نهاية الدوام</th>
-                        <th>ملاحظات</th>
-                        <th>الإجراءات</th>
+                        <th>التاريخ</th>
+                        <th>اليوم</th>
+                        <th>الوردية</th>
+                        <th>الحالة</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody">
+                <tbody id="scheduleTableBody">
                 </tbody>
             </table>
         </div>
+
+        <!-- ترقيم الصفحات -->
+        <nav class="mt-3">
+            <ul class="pagination justify-content-center" id="pagination">
+            </ul>
+        </nav>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="database.js"></script>
-    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+    <script src="database.js" type="module"></script>
+    <script src="employee-schedule.js" type="module"></script>
 </body>
 </html>

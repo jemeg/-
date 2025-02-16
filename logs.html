@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سجل التغييرات - نظام إدارة الإسعاف</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <img src="image/logo/logo.png" alt="شعار وزارة الصحة" class="ministry-logo-small">
+                    نظام إدارة الإسعاف
+                </a>
+                <div class="ms-auto">
+                    <span class="me-3">مرحباً، <span id="adminUsername"></span></span>
+                    <button class="btn btn-outline-danger btn-sm" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <!-- قسم ساعات التواجد -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">ساعات تواجد المستخدمين</h5>
+                    <div class="btn-group">
+                        <button class="btn btn-light btn-sm" onclick="refreshAttendance()">
+                            <i class="fas fa-sync-alt"></i> تحديث
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <canvas id="attendanceChart" height="300"></canvas>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="attendance-stats">
+                                <h6 class="text-muted mb-3">إحصائيات التواجد</h6>
+                                <div id="attendanceStats" class="list-group">
+                                    <!-- سيتم ملء هذا القسم ديناميكياً -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قسم سجل التغييرات -->
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">سجل التغييرات</h5>
+                    <div class="btn-group">
+                        <button class="btn btn-light" onclick="exportToExcel()">
+                            <i class="fas fa-file-excel"></i> تصدير Excel
+                        </button>
+                        <button class="btn btn-light" onclick="exportToPDF()">
+                            <i class="fas fa-file-pdf"></i> تصدير PDF
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="filters mb-4">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>نوع التغيير</label>
+                                <select class="form-select" id="actionFilter">
+                                    <option value="">الكل</option>
+                                    <option value="check_in">تسجيل حضور</option>
+                                    <option value="check_out">تسجيل انصراف</option>
+                                    <option value="add_row">إضافة صف</option>
+                                    <option value="edit_cell">تعديل خلية</option>
+                                    <option value="delete_row">حذف صف</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>المستخدم</label>
+                                <select class="form-select" id="userFilter">
+                                    <option value="">الكل</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>من تاريخ</label>
+                                <input type="date" class="form-control" id="dateFrom">
+                            </div>
+                            <div class="col-md-3">
+                                <label>إلى تاريخ</label>
+                                <input type="date" class="form-control" id="dateTo">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>التاريخ والوقت</th>
+                                    <th>المستخدم</th>
+                                    <th>نوع التغيير</th>
+                                    <th>التفاصيل</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logsTableBody"></tbody>
+                        </table>
+                    </div>
+
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <ul class="pagination justify-content-center" id="pagination"></ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="database.js"></script>
+    <script src="logs.js"></script>
+</body>
+</html>
